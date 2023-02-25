@@ -11,6 +11,7 @@
           <span>DucTien</span>
         </router-link>
         <hr />
+        <!-- sidebar content -->
         <div
           v-for="(sidebarItem, index) in sidebarList"
           :key="index"
@@ -22,30 +23,49 @@
           <div
             v-for="(innerItem, index) in sidebarItem.inner"
             class="sidebar-item__inner"
+            :key="index"
           >
             <component
               :is="!innerItem.dropdown ? 'router-link' : 'div'"
               :to="{ name: 'default-layout' }"
               :key="index"
-              class="inner-item d-flex align-items-center"
+              class="inner-item flex-column"
+              @click="innerItem.dropdown.isShow = !innerItem.dropdown.isShow"
             >
-              <div class="inner-item-container d-flex align-items-center">
-                <img
-                  :src="innerItem.linkIcon"
-                  alt="Image"
-                  class="inner-item__icon"
-                />
-                <div class="inner-item__content">
-                  {{ innerItem.content }}
+              <div class="inner-item-wrapper d-flex align-items-center">
+                <div class="inner-item-container d-flex align-items-center">
+                  <img
+                    :src="innerItem.linkIcon"
+                    alt="Image"
+                    class="inner-item__icon"
+                  />
+                  <div class="inner-item__content">
+                    {{ innerItem.content }}
+                  </div>
+                </div>
+                <div v-if="!!innerItem.dropdown">
+                  <img
+                    class="inner-item__arrow"
+                    src="../assets/icons/arrow-right.svg"
+                    alt="image"
+                  />
                 </div>
               </div>
-              <div v-if="!!innerItem.dropdown">
-                <img
-                  class="inner-item__arrow"
-                  src="../assets/icons/arrow-right.svg"
-                  alt="image"
-                />
-                <div class="inner-item__dropdown"></div>
+              <!-- dropdown -->
+              <div v-if="!!innerItem.dropdown && innerItem.dropdown.isShow">
+                <div class="inner-item__dropdown">
+                  <div class="dropdown-item__heading">
+                    {{ innerItem.dropdown.heading }}
+                  </div>
+                  <router-link
+                    v-for="(dropdownItem, index) in innerItem.dropdown.children"
+                    tag="a"
+                    :to="{ name: 'default-layout' }"
+                    :key="index"
+                    class="dropdown-item__content"
+                    >{{ dropdownItem }}</router-link
+                  >
+                </div>
               </div>
             </component>
           </div>
@@ -65,7 +85,7 @@ export default {
           heading: "",
           inner: [
             {
-              linkIcon: require("../assets/icons/search.svg"),
+              linkIcon: require("../assets/icons/icon.svg"),
               content: "Dashboard"
             }
           ]
@@ -74,15 +94,16 @@ export default {
           heading: "INTERFACE",
           inner: [
             {
-              linkIcon: require("../assets/icons/search.svg"),
+              linkIcon: require("../assets/icons/icon.svg"),
               content: "Ultilities",
               dropdown: {
+                isShow: false,
                 heading: "custom untilities:",
                 children: ["Borders", "Colors"]
               }
             },
             {
-              linkIcon: require("../assets/icons/search.svg"),
+              linkIcon: require("../assets/icons/icon.svg"),
               content: "Components"
             }
           ]
@@ -91,7 +112,7 @@ export default {
           heading: "ADDONS",
           inner: [
             {
-              linkIcon: require("../assets/icons/search.svg"),
+              linkIcon: require("../assets/icons/icon.svg"),
               content: "Tables"
             }
           ]
@@ -113,6 +134,7 @@ hr {
 }
 
 #sidebar {
+  min-height: 100vh;
   height: 100%;
   width: 224px;
   background-color: var(--main-color);
@@ -149,12 +171,15 @@ hr {
 }
 
 .inner-item {
-  padding: 16px 0;
   color: rgba(255, 255, 255, 0.7);
+}
+
+.inner-item-wrapper {
+  padding: 16px 0;
   cursor: pointer;
 }
 
-.inner-item:hover {
+.inner-item-wrapper:hover {
   color: rgba(255, 255, 255, 1);
   text-decoration: underline;
 }
@@ -170,5 +195,29 @@ hr {
 
 .inner-item__arrow {
   width: 16px;
+}
+
+.inner-item__dropdown {
+  background-color: white;
+  color: #404049;
+  font-size: 1.4rem;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.dropdown-item__heading {
+  color: #b7b9cc;
+  font-weight: 600;
+  padding: 8px 16px;
+}
+
+.dropdown-item__content {
+  width: 100%;
+  padding: 8px 16px;
+}
+
+.dropdown-item__content:hover {
+  background-color: #eaecf4;
+  border-radius: 6px;
 }
 </style>

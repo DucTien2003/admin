@@ -1,5 +1,5 @@
 <template lang="">
-  <div></div>
+  <div>Table Page</div>
 </template>
 <script>
 export default {

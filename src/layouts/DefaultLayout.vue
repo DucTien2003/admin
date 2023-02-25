@@ -3,6 +3,7 @@
     <div class="main">
       <TheSidebar />
       <TheHeader />
+      <router-view></router-view>
     </div>
   </div>
 </template>

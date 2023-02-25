@@ -1,5 +1,5 @@
 <template lang="">
-  <div></div>
+  <div>Border Page</div>
 </template>
 <script>
 export default {

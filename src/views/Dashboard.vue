@@ -1,9 +1,9 @@
-<template lang="">
-  <div></div>
+<template>
+  <div>Dashboard Page</div>
 </template>
 <script>
 export default {
   name: "Dashboard"
 };
 </script>
-<style lang=""></style>
+<style></style>

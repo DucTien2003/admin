@@ -1,5 +1,5 @@
 <template lang="">
-  <div></div>
+  <div>Color Page</div>
 </template>
 <script>
 export default {

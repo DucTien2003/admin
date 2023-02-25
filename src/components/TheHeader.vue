@@ -25,8 +25,75 @@
         </div>
         <div class="header__actions__user center-content">
           <div class="user__name">Duc Tien</div>
-          <div class="user__avatar">
-            <img src="../assets/images/myLogo.svg" alt="avatar" />
+          <div class="position-relative">
+            <img
+              class="user__avatar"
+              src="../assets/images/myLogo.svg"
+              alt="avatar"
+            />
+            <div class="user__dropdown shadow">
+              <div
+                v-for="(userItem, index) in userList"
+                :key="index"
+                class="user-item d-flex align-items-center"
+              >
+                <img class="user-item__icon" :src="userItem.icon" alt="image" />
+                <div class="user-item__title">{{ userItem.title }}</div>
+              </div>
+              <hr />
+              <div
+                class="user-item d-flex align-items-center"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                <img
+                  class="user-item__icon"
+                  src="../assets/icons/logout.svg"
+                  alt="image"
+                />
+                <div class="user-item__title">
+                  Logout
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal logout -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Select "Logout" below if you are ready to end your current session.
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button type="button" class="btn btn-primary">
+              <router-link tag="a" :to="{ name: 'login' }">Logout</router-link>
+            </button>
           </div>
         </div>
       </div>
@@ -36,11 +103,33 @@
 
 <script>
 export default {
-  name: "TheHeader"
+  name: "TheHeader",
+  data: () => {
+    return {
+      userList: [
+        {
+          icon: require("../assets/icons/icon.svg"),
+          title: "Profile"
+        },
+        {
+          icon: require("../assets/icons/icon.svg"),
+          title: "Settings"
+        },
+        {
+          icon: require("../assets/icons/icon.svg"),
+          title: "Activity Log"
+        }
+      ]
+    };
+  }
 };
 </script>
 
 <style scoped>
+hr {
+  margin: 6px 0;
+}
+
 #header {
   flex: 1;
 }
@@ -136,6 +225,7 @@ export default {
   cursor: pointer;
 }
 
+/* user */
 .user__name {
   font-size: 1.3rem;
   color: rgb(141, 125, 125);
@@ -145,9 +235,53 @@ export default {
 .user__avatar {
   width: 32px;
   height: 32px;
-}
-.user__avatar img {
-  width: 100%;
   border-radius: 999px;
+}
+
+.user__dropdown {
+  position: absolute;
+  background-color: #fff;
+  top: 160%;
+  right: 0;
+  width: 180px;
+  padding: 8px 0;
+}
+
+.user-item {
+  color: #3a3b45;
+  width: 100%;
+  padding: 10px 26px;
+}
+
+.user-item:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.user-item__icon {
+  width: 18px;
+}
+
+.user-item__title {
+  font-size: 1.4rem;
+  margin-left: 10px;
+}
+
+/* modal */
+.modal-content {
+  color: #858796;
+}
+
+.modal-title {
+  font-size: 2rem;
+}
+
+.modal-body {
+  font-size: 1.6rem;
+}
+
+.btn {
+  border-radius: 8px;
+  font-size: 1.6rem;
+  padding: 5px 15px;
 }
 </style>
