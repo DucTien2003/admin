@@ -54,7 +54,11 @@
                 <div class="user-item__title">{{ userItem.title }}</div>
               </div>
               <hr />
-              <div class="user-item d-flex align-items-center">
+              <div
+                class="user-item d-flex align-items-center"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
                 <img
                   class="user-item__icon"
                   src="../assets/icons/logout.svg"
