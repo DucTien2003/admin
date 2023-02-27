@@ -2,8 +2,12 @@
   <div id="wrapper">
     <div class="main">
       <TheSidebar />
-      <TheHeader />
-      <router-view></router-view>
+      <div class="content d-flex flex-column">
+        <TheHeader />
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </div>
     </div>
   </div>
 </template>
@@ -23,5 +27,9 @@ export default {
 <style scoped>
 .main {
   display: flex;
+}
+
+.content {
+  flex: 1;
 }
 </style>

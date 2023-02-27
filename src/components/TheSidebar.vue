@@ -4,7 +4,7 @@
       <div class="logo">
         <router-link
           tag="a"
-          :to="{ name: 'default-layout' }"
+          :to="{ name: 'dashboard' }"
           class="logo__link center-content"
         >
           <img src="../assets/images/myLogo.svg" alt="Logo" />
@@ -27,7 +27,7 @@
           >
             <component
               :is="!innerItem.dropdown ? 'router-link' : 'div'"
-              :to="{ name: 'default-layout' }"
+              :to="{ name: innerItem.to }"
               :key="index"
               class="inner-item flex-column"
               @click="innerItem.dropdown.isShow = !innerItem.dropdown.isShow"
@@ -60,10 +60,10 @@
                   <router-link
                     v-for="(dropdownItem, index) in innerItem.dropdown.children"
                     tag="a"
-                    :to="{ name: 'default-layout' }"
+                    :to="{ name: dropdownItem.to }"
                     :key="index"
                     class="dropdown-item__content"
-                    >{{ dropdownItem }}</router-link
+                    >{{ dropdownItem.content }}</router-link
                   >
                 </div>
               </div>
@@ -86,7 +86,8 @@ export default {
           inner: [
             {
               linkIcon: require("../assets/icons/icon.svg"),
-              content: "Dashboard"
+              content: "Dashboard",
+              to: "dashboard"
             }
           ]
         },
@@ -99,7 +100,17 @@ export default {
               dropdown: {
                 isShow: false,
                 heading: "custom untilities:",
-                children: ["Borders", "Colors"]
+                children: [
+                  {
+                    content: "Borders",
+                    to: "borders"
+                  },
+                  {
+                    content: "Colors",
+                    link: "../views/utilities/Colors.vue",
+                    to: "colors"
+                  }
+                ]
               }
             },
             {
@@ -113,7 +124,8 @@ export default {
           inner: [
             {
               linkIcon: require("../assets/icons/icon.svg"),
-              content: "Tables"
+              content: "tablets",
+              to: "tablets"
             }
           ]
         }
@@ -171,6 +183,7 @@ hr {
 }
 
 .inner-item {
+  width: 100%;
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -217,7 +230,9 @@ hr {
 }
 
 .dropdown-item__content:hover {
+  color: rgb(85, 85, 235);
   background-color: #eaecf4;
   border-radius: 6px;
+  font-weight: 700;
 }
 </style>

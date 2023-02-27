@@ -17,13 +17,26 @@
       <div class="header__actions center-content">
         <div class="header__actions__btn d-flex">
           <div class="action__btn">
-            <img src="../assets/icons/bell.svg" alt="image" />
+            <img
+              src="../assets/icons/bell.svg"
+              alt="image"
+              @click="alertList.isShow = !alertList.isShow"
+            />
+            <dropdown :data="alertList" />
           </div>
           <div class="action__btn">
-            <img src="../assets/icons/mail.svg" alt="image" />
+            <img
+              src="../assets/icons/mail.svg"
+              alt="image"
+              @click="notificationList.isShow = !notificationList.isShow"
+            />
+            <dropdown :data="notificationList" />
           </div>
         </div>
-        <div class="header__actions__user center-content">
+        <div
+          class="header__actions__user center-content"
+          @click="userList.isShow = !userList.isShow"
+        >
           <div class="user__name">Duc Tien</div>
           <div class="position-relative">
             <img
@@ -31,9 +44,9 @@
               src="../assets/images/myLogo.svg"
               alt="avatar"
             />
-            <div class="user__dropdown shadow">
+            <div v-if="userList.isShow" class="user__dropdown shadow">
               <div
-                v-for="(userItem, index) in userList"
+                v-for="(userItem, index) in userList.list"
                 :key="index"
                 class="user-item d-flex align-items-center"
               >
@@ -41,11 +54,7 @@
                 <div class="user-item__title">{{ userItem.title }}</div>
               </div>
               <hr />
-              <div
-                class="user-item d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-              >
+              <div class="user-item d-flex align-items-center">
                 <img
                   class="user-item__icon"
                   src="../assets/icons/logout.svg"
@@ -102,26 +111,87 @@
 </template>
 
 <script>
+import Dropdown from "./Dropdown.vue";
+
 export default {
   name: "TheHeader",
   data: () => {
     return {
-      userList: [
-        {
-          icon: require("../assets/icons/icon.svg"),
-          title: "Profile"
-        },
-        {
-          icon: require("../assets/icons/icon.svg"),
-          title: "Settings"
-        },
-        {
-          icon: require("../assets/icons/icon.svg"),
-          title: "Activity Log"
-        }
-      ]
+      userList: {
+        isShow: false,
+        list: [
+          {
+            icon: require("../assets/icons/icon.svg"),
+            title: "Profile"
+          },
+          {
+            icon: require("../assets/icons/icon.svg"),
+            title: "Settings"
+          },
+          {
+            icon: require("../assets/icons/icon.svg"),
+            title: "Activity Log"
+          }
+        ]
+      },
+      alertList: {
+        heading: "ALERTS CENTER",
+        isShow: false,
+        isReverse: false,
+        list: [
+          {
+            type: "document",
+            time: "December 12, 2022",
+            content: "A new monthly report is ready to download!"
+          },
+          {
+            type: "donate",
+            time: "December 10, 2022",
+            content: "$290.29 has been deposited into your account!"
+          },
+          {
+            type: "alert",
+            time: "December 07, 2022",
+            content:
+              " Spending Alert: We've noticed unusually high spending for your account."
+          }
+        ]
+      },
+      notificationList: {
+        heading: "MESSAGE CENTER",
+        isShow: false,
+        isReverse: true,
+        list: [
+          {
+            type: "document",
+            time: "Emily Fowler · 58m",
+            content:
+              "Hi there! I am wondering if you can help me with a problem I've been having."
+          },
+          {
+            type: "donate",
+            time: "Jae Chun · 1d",
+            content:
+              "I have the photos that you ordered last month, how would you like them sent to you?"
+          },
+          {
+            type: "alert",
+            time: "Morgan Alvarez · 2d",
+            content:
+              "Last month's report looks great, I am very happy with the progress so far, keep up the good work!"
+          },
+          {
+            type: "alert",
+            time: "Chicken the Dog · 2w",
+            content:
+              "Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good..."
+          }
+        ]
+      }
     };
-  }
+  },
+  components: { Dropdown },
+  methods: {}
 };
 </script>
 
@@ -130,9 +200,6 @@ hr {
   margin: 6px 0;
 }
 
-#header {
-  flex: 1;
-}
 .header-wrapper {
   height: 70px;
   margin-bottom: 24px;
@@ -200,19 +267,24 @@ hr {
 }
 
 .action__btn {
+  position: relative;
   width: 30px;
   height: 30px;
   aspect-ratio: 1/1;
+}
+
+.action__btn > img:hover {
+  background-color: #f4f4f7;
+}
+
+.action__btn img {
   padding: 5px;
   border-radius: 999px;
+  cursor: pointer;
 }
 
 .action__btn + .action__btn {
   margin-left: 10px;
-}
-
-.action__btn:hover {
-  background-color: #f4f4f7;
 }
 
 .action__btn img {

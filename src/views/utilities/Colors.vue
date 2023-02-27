@@ -1,9 +1,14 @@
 <template lang="">
-  <div>Color Page</div>
+  <div id="main">Color Page</div>
 </template>
 <script>
 export default {
   name: "Colors"
 };
 </script>
-<style lang=""></style>
+<style scoped>
+#main {
+  font-size: 30px;
+  text-align: center;
+}
+</style>

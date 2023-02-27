@@ -13,7 +13,30 @@ export const routes = [
   {
     path: "/",
     name: "default-layout",
-    component: DefaultLayout
+    component: DefaultLayout,
+    children: [
+      // views
+      {
+        path: "",
+        name: "dashboard",
+        component: Dashboard
+      },
+      {
+        path: "/tablets",
+        name: "tablets",
+        component: Tablets
+      },
+      {
+        path: "/borders",
+        name: "borders",
+        component: Borders
+      },
+      {
+        path: "/colors",
+        name: "colors",
+        component: Colors
+      }
+    ]
   },
   {
     path: "/forgot-password",
@@ -29,26 +52,5 @@ export const routes = [
     path: "/register",
     name: "register",
     component: Register
-  },
-  // views
-  {
-    path: "/",
-    name: "default-layout",
-    component: Dashboard
-  },
-  {
-    path: "/tablets",
-    name: "tablets",
-    component: Tablets
-  },
-  {
-    path: "/borders",
-    name: "borders",
-    component: Borders
-  },
-  {
-    path: "/colors",
-    name: "colors",
-    component: Colors
   }
 ];

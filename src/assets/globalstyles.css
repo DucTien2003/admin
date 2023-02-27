@@ -156,7 +156,7 @@ img {
 }
 
 a:hover {
-  color: inherit !important;
+  color: inherit;
 }
 /* End reset css */
 
