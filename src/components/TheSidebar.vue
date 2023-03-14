@@ -30,9 +30,15 @@
               :to="{ name: innerItem.to }"
               :key="index"
               class="inner-item flex-column"
-              @click="innerItem.dropdown.isShow = !innerItem.dropdown.isShow"
             >
-              <div class="inner-item-wrapper d-flex align-items-center">
+              <div
+                class="inner-item-wrapper d-flex align-items-center"
+                @click="
+                  innerItem.dropdown
+                    ? (innerItem.dropdown.isShow = !innerItem.dropdown.isShow)
+                    : ''
+                "
+              >
                 <div class="inner-item-container d-flex align-items-center">
                   <img
                     :src="innerItem.linkIcon"
@@ -115,7 +121,8 @@ export default {
             },
             {
               linkIcon: require("../assets/icons/icon.svg"),
-              content: "Components"
+              content: "Manager User",
+              to: "manager-users"
             }
           ]
         },
@@ -131,11 +138,6 @@ export default {
         }
       ]
     };
-  },
-  computed: {
-    takeLinkIcon: link => {
-      return require(link);
-    }
   }
 };
 </script>

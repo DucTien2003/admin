@@ -5,7 +5,7 @@
         <div class=" wrapper col-xl-10 col-lg-12 col-md-9 d-flex">
           <div class="img col-lg-6 d-lg-block d-none"></div>
           <div class="content col-12 col-lg-6 flex-column center-content">
-            <div class="heading">Forgot Your Password?</div>
+            <div class="heading text-center">Forgot Your Password?</div>
             <p class="text text-center">
               We get it, stuff happens. Just enter your email address below and
               we'll send you a link to reset your password!

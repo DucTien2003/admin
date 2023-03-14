@@ -1,4 +1,5 @@
 import DefaultLayout from "./layouts/DefaultLayout.vue";
+import ManagerUsers from "./layouts/ManagerUsers.vue";
 import ForgotPass from "./layouts/public/ForgotPass.vue";
 import Login from "./layouts/public/Login.vue";
 import Register from "./layouts/public/Register.vue";
@@ -12,7 +13,6 @@ export const routes = [
   // layout
   {
     path: "/",
-    name: "default-layout",
     component: DefaultLayout,
     children: [
       // views
@@ -37,6 +37,11 @@ export const routes = [
         component: Colors
       }
     ]
+  },
+  {
+    path: "/manager-users",
+    name: "manager-users",
+    component: ManagerUsers
   },
   {
     path: "/forgot-password",

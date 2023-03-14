@@ -16,7 +16,11 @@
       <!-- actions -->
       <div class="header__actions center-content">
         <div class="header__actions__btn d-flex">
-          <div class="action__btn">
+          <div
+            class="action__btn"
+            tabindex="0"
+            @blur="alertList.isShow = false"
+          >
             <img
               src="../assets/icons/bell.svg"
               alt="image"
@@ -24,7 +28,11 @@
             />
             <dropdown :data="alertList" />
           </div>
-          <div class="action__btn">
+          <div
+            class="action__btn"
+            tabindex="0"
+            @blur="notificationList.isShow = false"
+          >
             <img
               src="../assets/icons/mail.svg"
               alt="image"
@@ -33,40 +41,45 @@
             <dropdown :data="notificationList" />
           </div>
         </div>
+        <!-- user -->
         <div
-          class="header__actions__user center-content"
-          @click="userList.isShow = !userList.isShow"
+          class=" position-relative"
+          tabindex="0"
+          @blur="userList.isShow = false"
         >
-          <div class="user__name">Duc Tien</div>
-          <div class="position-relative">
+          <div
+            class="header__actions__user center-content"
+            @click="userList.isShow = !userList.isShow"
+          >
+            <div class="user__name">Duc Tien</div>
             <img
               class="user__avatar"
               src="../assets/images/myLogo.svg"
               alt="avatar"
             />
-            <div v-if="userList.isShow" class="user__dropdown shadow">
-              <div
-                v-for="(userItem, index) in userList.list"
-                :key="index"
-                class="user-item d-flex align-items-center"
-              >
-                <img class="user-item__icon" :src="userItem.icon" alt="image" />
-                <div class="user-item__title">{{ userItem.title }}</div>
-              </div>
-              <hr />
-              <div
-                class="user-item d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-              >
-                <img
-                  class="user-item__icon"
-                  src="../assets/icons/logout.svg"
-                  alt="image"
-                />
-                <div class="user-item__title">
-                  Logout
-                </div>
+          </div>
+          <div v-if="userList.isShow" class="user__dropdown shadow">
+            <div
+              v-for="(userItem, index) in userList.list"
+              :key="index"
+              class="user-item d-flex align-items-center"
+            >
+              <img class="user-item__icon" :src="userItem.icon" alt="image" />
+              <div class="user-item__title">{{ userItem.title }}</div>
+            </div>
+            <hr />
+            <div
+              class="user-item d-flex align-items-center"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              <img
+                class="user-item__icon"
+                src="../assets/icons/logout.svg"
+                alt="image"
+              />
+              <div class="user-item__title">
+                Logout
               </div>
             </div>
           </div>
@@ -278,7 +291,7 @@ hr {
 }
 
 .action__btn > img:hover {
-  background-color: #f4f4f7;
+  background-color: #ebebec;
 }
 
 .action__btn img {
@@ -317,10 +330,14 @@ hr {
 .user__dropdown {
   position: absolute;
   background-color: #fff;
-  top: 160%;
+  top: 130%;
   right: 0;
   width: 180px;
   padding: 8px 0;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1000;
 }
 
 .user-item {

@@ -24,13 +24,14 @@
 <script>
 export default {
   name: "Dropdown",
-  props: ["data"]
+  props: ["data"],
+  methods: {}
 };
 </script>
 <style scoped>
 #dropdown {
   position: absolute;
-  top: 100%;
+  top: 170%;
   right: 0;
   width: 320px;
   font-size: 1rem;
