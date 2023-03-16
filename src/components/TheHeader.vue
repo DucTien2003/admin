@@ -24,7 +24,7 @@
             <img
               src="../assets/icons/bell.svg"
               alt="image"
-              @click="alertList.isShow = !alertList.isShow"
+              @click="handleShowDropdown(alertList)"
             />
             <dropdown :data="alertList" />
           </div>
@@ -36,7 +36,7 @@
             <img
               src="../assets/icons/mail.svg"
               alt="image"
-              @click="notificationList.isShow = !notificationList.isShow"
+              @click="handleShowDropdown(notificationList)"
             />
             <dropdown :data="notificationList" />
           </div>
@@ -49,7 +49,7 @@
         >
           <div
             class="header__actions__user center-content"
-            @click="userList.isShow = !userList.isShow"
+            @click="handleShowDropdown(userList)"
           >
             <div class="user__name">Duc Tien</div>
             <img
@@ -208,7 +208,11 @@ export default {
     };
   },
   components: { Dropdown },
-  methods: {}
+  methods: {
+    handleShowDropdown(item) {
+      item.isShow = !item.isShow;
+    }
+  }
 };
 </script>
 

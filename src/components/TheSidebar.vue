@@ -33,11 +33,7 @@
             >
               <div
                 class="inner-item-wrapper d-flex align-items-center"
-                @click="
-                  innerItem.dropdown
-                    ? (innerItem.dropdown.isShow = !innerItem.dropdown.isShow)
-                    : ''
-                "
+                @click="handleShowDropdown(innerItem)"
               >
                 <div class="inner-item-container d-flex align-items-center">
                   <img
@@ -121,8 +117,8 @@ export default {
             },
             {
               linkIcon: require("../assets/icons/icon.svg"),
-              content: "Manager User",
-              to: "manager-users"
+              content: "User",
+              to: "users"
             }
           ]
         },
@@ -138,6 +134,11 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    handleShowDropdown(item) {
+      item.dropdown ? (item.dropdown.isShow = !item.dropdown.isShow) : "";
+    }
   }
 };
 </script>

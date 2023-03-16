@@ -1,5 +1,5 @@
 import DefaultLayout from "./layouts/DefaultLayout.vue";
-import ManagerUsers from "./layouts/ManagerUsers.vue";
+import Users from "./layouts/Users.vue";
 import ForgotPass from "./layouts/public/ForgotPass.vue";
 import Login from "./layouts/public/Login.vue";
 import Register from "./layouts/public/Register.vue";
@@ -39,9 +39,9 @@ export const routes = [
     ]
   },
   {
-    path: "/manager-users",
-    name: "manager-users",
-    component: ManagerUsers
+    path: "/users",
+    name: "users",
+    component: Users
   },
   {
     path: "/forgot-password",
