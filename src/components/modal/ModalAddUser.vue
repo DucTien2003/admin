@@ -2,9 +2,9 @@
   <!-- Modal -->
   <div
     class="modal fade"
-    id="exampleModal"
+    id="addUserModal"
     tabindex="-1"
-    aria-labelledby="exampleModalLabel"
+    aria-labelledby="addUserModalLabel"
     aria-hidden="true"
   >
     <div class="modal-dialog">
@@ -20,7 +20,7 @@
         </div>
         <div class="modal-body d-flex flex-wrap align-items-center">
           <div
-            v-for="(formItem, index) in modalList"
+            v-for="(formItem, index) in modalAddUser"
             class="form-item required col-md-6 d-flex flex-column"
             :key="index"
           >
@@ -41,13 +41,14 @@
               :placeholder="formItem.placeholder"
               v-model="formItem.value"
             />
+            <div v-if="!formItem.isVisible" class="toggle-visible"></div>
           </div>
           <div class="check-admin form-item col-md-6 d-flex align-items-center">
             <input
               class="form-check-input"
               id="is-admin"
               type="checkbox"
-              :v-model="newUser.isAdmin"
+              v-model="newUser.isAdmin"
             />
             <label class="f-w-700" for="is-admin">
               Là Super Admin
@@ -62,7 +63,11 @@
           >
             Thoát
           </button>
-          <button type="button" class="btn btn-primary" @click="addUser()">
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="() => handleAddUser()"
+          >
             Lưu
           </button>
         </div>
@@ -73,7 +78,91 @@
 <script>
 export default {
   name: "modal",
-  props: ["modalList", "newUser"],
+  data() {
+    return {
+      modalAddUser: [
+        {
+          value: "",
+          id: "name",
+          label: "Họ và tên",
+          placeholder: "Nhập họ và tên...",
+          type: "text",
+          required: true,
+          isWarning: false
+        },
+        {
+          value: "",
+          id: "account",
+          label: "Tài khoản",
+          placeholder: "Nhập tên tài khoản...",
+          type: "text",
+          condition: "Tài khoản tối thiểu 6 ký tự",
+          required: true,
+          isWarning: false
+        },
+        {
+          value: "",
+          id: "password",
+          label: "Mật khẩu",
+          placeholder: "Nhập mật khẩu...",
+          type: "password",
+          condition: "Mật khẩu tối thiểu 6 ký tự",
+          required: true,
+          isWarning: false,
+          isVisible: false
+        },
+        {
+          value: "",
+          id: "email",
+          label: "Email",
+          placeholder: "Nhập email...",
+          type: "email",
+          condition: "Email không hợp lệ",
+          required: true,
+          isWarning: false
+        },
+        {
+          value: "",
+          id: "phone",
+          label: "Số điện thoại",
+          placeholder: "Nhập số điện thoại...",
+          type: "number",
+          required: true,
+          isWarning: false
+        },
+        {
+          value: "",
+          id: "organize",
+          label: "Tổ chức",
+          placeholder: "Cơ cấu tổ chức...",
+          type: "text",
+          required: true,
+          isWarning: false
+        },
+        {
+          value: "",
+          id: "group",
+          label: "Nhóm người dùng",
+          placeholder: "Nhóm người dùng...",
+          type: "text",
+          required: true,
+          isWarning: false
+        }
+      ],
+      newUser: {
+        name: "",
+        account: "",
+        password: "",
+        email: "",
+        phone: "",
+        group: "",
+        organize: "",
+        time: "",
+        isAdmin: false
+      }
+    };
+  },
+  props: ["addUser"],
   methods: {
     addZero(number) {
       return number < 10 ? "0" + number : number;
@@ -89,23 +178,34 @@ export default {
       return `${getDate}/${getMonth}/${getFullYear} ${getHours}:${getMinutes}`;
     },
     checkEmail(email) {
-      return email
+      return String(email)
         .toLowerCase()
         .match(
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
     },
-    addUser() {
+    resetNewUser() {
+      this.newUser = {
+        name: "",
+        account: "",
+        password: "",
+        email: "",
+        phone: "",
+        group: "",
+        organize: "",
+        time: "",
+        isAdmin: false
+      };
+    },
+    handleAddUser() {
       let isWarning = false;
       for (var modalAddUserItem of this.modalAddUser) {
-        if (!modalAddUserItem.value) {
-          modalAddUserItem.isWarning = true;
-          isWarning = true;
-        } else if (
+        if (
+          !modalAddUserItem.value ||
           (["account", "password"].includes(modalAddUserItem.id) &&
             modalAddUserItem.value.length < 6) ||
           (modalAddUserItem.id === "email" &&
-            checkEmail(!modalAddUserItem.value))
+            !this.checkEmail(modalAddUserItem.value))
         ) {
           modalAddUserItem.isWarning = true;
           isWarning = true;
@@ -115,30 +215,21 @@ export default {
       }
 
       if (!isWarning) {
-        this.newUser.time = getTime();
+        this.newUser.time = this.getTime();
         for (var modalAddUserItem of this.modalAddUser) {
           this.newUser[modalAddUserItem.id] = modalAddUserItem.value;
         }
-        this.users.unshift(this.newUser);
+        this.addUser(this.newUser);
 
-        this.newUser = {
-          name: "",
-          account: "",
-          password: "",
-          email: "",
-          phone: "",
-          group: "",
-          organize: "",
-          time: "",
-          isAdmin: false
-        };
+        this.resetNewUser();
 
         for (var modalAddUserItem of this.modalAddUser) {
           modalAddUserItem.value = "";
         }
       }
     }
-  }
+  },
+  computed: {}
 };
 </script>
 <style scoped>
@@ -154,6 +245,10 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 /* Hide Arrows From Input Number */
+
+.modal-body {
+  padding-bottom: 30px;
+}
 
 .warning-text {
   margin-left: 10px;
@@ -176,6 +271,10 @@ input[type="number"] {
   font-size: 12px;
   padding: 0 10px;
   margin-top: 15px;
+}
+
+.form-item + .form-item {
+  margin-top: 25px;
 }
 
 .form-item label span {

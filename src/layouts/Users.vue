@@ -6,7 +6,7 @@
         <button
           class="btn btn-primary add-user-btn"
           data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
+          data-bs-target="#addUserModal"
         >
           Thêm người dùng
         </button>
@@ -60,6 +60,9 @@
                 class="action-icon"
                 src="../assets/icons/lock.svg"
                 alt="icon"
+                data-bs-toggle="modal"
+                data-bs-target="#changePasswordModal"
+                @click="changeIndex(index)"
               />
               <div class="form-check form-switch">
                 <input
@@ -72,33 +75,21 @@
             </td>
           </tr>
         </table>
-
-        <!-- <div class="text-end">
-          <p>1-10 trong {{ users.length }} bản ghi</p>
-          <div class="pagination">
-            <div>
-              <img src="../assets/icons/arrow-left-pagination.svg" alt="icon" />
-            </div>
-            <div>
-              <img
-                src="../assets/icons/arrow-right-pagination.svg"
-                alt="icon"
-              />
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
 
-    <Modal :modalList="modalAddUser" :newUser="newUser"></Modal>
+    <ModalAddUser :addUser="addUser"></ModalAddUser>
+    <ModalChangePassword :changePassword="changePassword" />
   </div>
 </template>
 <script>
-import Modal from "../components/Modal.vue";
+import ModalAddUser from "../components/modal/ModalAddUser.vue";
+import ModalChangePassword from "../components/modal/ModalChangePassword.vue";
 export default {
   name: "users",
   data() {
     return {
+      index: 0,
       users: [
         {
           name: "Lê Đức Tiến",
@@ -210,90 +201,23 @@ export default {
           time: "06/01/2022 04:35",
           isAdmin: false
         }
-      ],
-      newUser: {
-        name: "",
-        account: "",
-        password: "",
-        email: "",
-        phone: "",
-        group: "",
-        organize: "",
-        time: "",
-        isAdmin: false
-      },
-      modalAddUser: [
-        {
-          value: "",
-          id: "name",
-          label: "Họ và tên",
-          placeholder: "Nhập họ và tên...",
-          type: "text",
-          required: true,
-          isWarning: false
-        },
-        {
-          value: "",
-          id: "account",
-          label: "Tài khoản",
-          placeholder: "Nhập tên tài khoản...",
-          type: "text",
-          condition: "Tài khoản tối thiểu 6 ký tự",
-          required: true,
-          isWarning: false
-        },
-        {
-          value: "",
-          id: "password",
-          label: "Mật khẩu",
-          placeholder: "Nhập mật khẩu...",
-          type: "password",
-          condition: "Mật khẩu tối thiểu 6 ký tự",
-          required: true,
-          isWarning: false
-        },
-        {
-          value: "",
-          id: "email",
-          label: "Email",
-          placeholder: "Nhập email...",
-          type: "email",
-          condition: "Email không hợp lệ",
-          required: true,
-          isWarning: false
-        },
-        {
-          value: "",
-          id: "phone",
-          label: "Số điện thoại",
-          placeholder: "Nhập số điện thoại...",
-          type: "number",
-          required: true,
-          isWarning: false
-        },
-        {
-          value: "",
-          id: "organize",
-          label: "Tổ chức",
-          placeholder: "Cơ cấu tổ chức...",
-          type: "text",
-          required: true,
-          isWarning: false
-        },
-        {
-          value: "",
-          id: "group",
-          label: "Nhóm người dùng",
-          placeholder: "Nhóm người dùng...",
-          type: "text",
-          required: true,
-          isWarning: false
-        }
       ]
     };
   },
   components: {
-    Modal
+    ModalAddUser,
+    ModalChangePassword
+  },
+  methods: {
+    changeIndex(index) {
+      this.index = index;
+    },
+    addUser(user) {
+      this.users.unshift(user);
+    },
+    changePassword(password) {
+      this.users[this.index].password = password;
+    }
   }
 };
 </script>
