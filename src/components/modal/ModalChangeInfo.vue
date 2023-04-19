@@ -2,9 +2,9 @@
   <!-- Modal -->
   <div
     class="modal fade"
-    id="addUserModal"
+    id="changeInfoModal"
     tabindex="-1"
-    aria-labelledby="addUserModalLabel"
+    aria-labelledby="changeInfoModalLabel"
     aria-hidden="true"
   >
     <div class="modal-dialog">
@@ -20,8 +20,8 @@
         </div>
         <div class="modal-body d-flex flex-wrap align-items-center">
           <div
-            v-for="(formItem, index) in modalAddUser"
-            class="form-item required col-md-6 d-flex flex-column position-relative"
+            v-for="(formItem, index) in modalChangeInfo"
+            class="form-item required col-md-12 d-flex flex-column position-relative"
             :key="index"
           >
             <!-- label -->
@@ -31,8 +31,9 @@
                 v-if="formItem.required"
                 class="warning-text fw-normal"
                 :class="formItem.isWarning ? 'd-inline-block' : 'd-none'"
-                >{{ formItem.condition || "Trường này là bắt buộc" }}</span
               >
+                {{ formItem.condition || "Trường này là bắt buộc" }}
+              </span>
             </label>
 
             <!-- input -->
@@ -42,28 +43,14 @@
               :id="formItem.id"
               :type="formItem.type"
               :placeholder="formItem.placeholder"
-              v-model="formItem.value"
+              v-model="newUser[formItem.id]"
             />
-
-            <!-- toggle-visible for password -->
-            <div
-              v-if="formItem.isVisible !== undefined"
-              class="toggle-visible"
-              @click="
-                () => {
-                  changeVisiblePassword(formItem);
-                }
-              "
-            >
-              <img
-                v-if="formItem.isVisible"
-                src="../../assets/icons/eye-open.svg"
-                alt="image"
-              />
-              <img v-else src="../../assets/icons/eye-closed.svg" alt="svg" />
-            </div>
           </div>
-          <div class="check-admin form-item col-md-6 d-flex align-items-center">
+
+          <!-- check admin -->
+          <div
+            class="check-admin form-item col-md-12 d-flex align-items-center"
+          >
             <input
               class="form-check-input"
               id="is-admin"
@@ -86,7 +73,7 @@
           <button
             type="button"
             class="btn btn-primary"
-            @click="() => handleAddUser()"
+            @click="() => handleChangeInfo()"
           >
             Lưu
           </button>
@@ -98,9 +85,10 @@
 <script>
 export default {
   name: "modal",
+  props: ["infoUser", "changeInfoUser"],
   data() {
     return {
-      modalAddUser: [
+      modalChangeInfo: [
         {
           value: "",
           id: "name",
@@ -117,36 +105,6 @@ export default {
           placeholder: "Nhập tên tài khoản...",
           type: "text",
           condition: "Tài khoản tối thiểu 6 ký tự",
-          required: true,
-          isWarning: false
-        },
-        {
-          value: "",
-          id: "password",
-          label: "Mật khẩu",
-          placeholder: "Nhập mật khẩu...",
-          type: "password",
-          condition: "Mật khẩu tối thiểu 6 ký tự",
-          required: true,
-          isWarning: false,
-          isVisible: false
-        },
-        {
-          value: "",
-          id: "email",
-          label: "Email",
-          placeholder: "Nhập email...",
-          type: "email",
-          condition: "Email không hợp lệ",
-          required: true,
-          isWarning: false
-        },
-        {
-          value: "",
-          id: "phone",
-          label: "Số điện thoại",
-          placeholder: "Nhập số điện thoại...",
-          type: "number",
           required: true,
           isWarning: false
         },
@@ -169,20 +127,9 @@ export default {
           isWarning: false
         }
       ],
-      newUser: {
-        name: "",
-        account: "",
-        password: "",
-        email: "",
-        phone: "",
-        group: "",
-        organize: "",
-        time: "",
-        isAdmin: false
-      }
+      newUser: this.infoUser
     };
   },
-  props: ["addUser"],
   methods: {
     addZero(number) {
       return number < 10 ? "0" + number : number;
@@ -197,62 +144,32 @@ export default {
 
       return `${getDate}/${getMonth}/${getFullYear} ${getHours}:${getMinutes}`;
     },
-    checkEmail(email) {
-      return String(email)
-        .toLowerCase()
-        .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
-    },
-    resetNewUser() {
-      this.newUser = {
-        name: "",
-        account: "",
-        password: "",
-        email: "",
-        phone: "",
-        group: "",
-        organize: "",
-        time: "",
-        isAdmin: false
-      };
-    },
-    handleAddUser() {
+    handleChangeInfo() {
+      console.log(this.newUser);
       let isWarning = false;
-      for (var modalAddUserItem of this.modalAddUser) {
+      for (var modalChangeInfoItem of this.modalChangeInfo) {
         if (
-          !modalAddUserItem.value ||
-          (["account", "password"].includes(modalAddUserItem.id) &&
-            modalAddUserItem.value.length < 6) ||
-          (modalAddUserItem.id === "email" &&
-            !this.checkEmail(modalAddUserItem.value))
+          !modalChangeInfoItem.value ||
+          (["account"].includes(modalChangeInfoItem.id) &&
+            modalChangeInfoItem.value.length < 6)
         ) {
-          modalAddUserItem.isWarning = true;
+          modalChangeInfoItem.isWarning = true;
           isWarning = true;
         } else {
-          modalAddUserItem.isWarning = false;
+          modalChangeInfoItem.isWarning = false;
         }
       }
 
       if (!isWarning) {
-        this.newUser.time = this.getTime();
-        for (var modalAddUserItem of this.modalAddUser) {
-          this.newUser[modalAddUserItem.id] = modalAddUserItem.value;
+        this.infoUser.time = this.getTime();
+        for (var modalChangeInfoItem of this.modalChangeInfo) {
+          this.infoUser[modalAddUserItem.id] = modalChangeInfoItem.value;
         }
-        this.addUser(this.newUser);
-
-        this.resetNewUser();
 
         for (var modalAddUserItem of this.modalAddUser) {
           modalAddUserItem.value = "";
         }
       }
-    },
-    changeVisiblePassword(formItem) {
-      formItem.isVisible = !formItem.isVisible;
-      formItem.type === "text"
-        ? (formItem.type = "password")
-        : (formItem.type = "text");
     }
   }
 };
@@ -286,7 +203,7 @@ input[type="number"] {
 
 .modal-dialog {
   max-width: 100%;
-  width: 60%;
+  width: 40%;
 }
 
 .modal-header {
@@ -297,6 +214,10 @@ input[type="number"] {
   font-size: 12px;
   padding: 0 10px;
   margin-top: 15px;
+}
+
+.form-item + .form-item {
+  margin-top: 25px;
 }
 
 .form-item label span {
@@ -319,18 +240,6 @@ input[type="number"] {
 
 .form-control {
   margin-top: 10px;
-}
-
-.toggle-visible {
-  position: absolute;
-  right: 10px;
-  top: 23px;
-  padding: 3px 8px;
-  cursor: pointer;
-}
-
-.toggle-visible img {
-  width: 20px;
 }
 
 .modal-footer button {

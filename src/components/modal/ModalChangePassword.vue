@@ -21,9 +21,10 @@
         <div class="modal-body d-flex flex-wrap align-items-center">
           <div
             v-for="(formItem, index) in modalChangePassword"
-            class="form-item required col-md-12 d-flex flex-column"
+            class="form-item required col-md-12 d-flex flex-column position-relative"
             :key="index"
           >
+            <!-- label -->
             <label class="f-w-700" :for="formItem.id">
               <span v-if="formItem.required">*</span> {{ formItem.label }}
               <span
@@ -33,6 +34,8 @@
                 >{{ formItem.condition || "Trường này là bắt buộc" }}</span
               >
             </label>
+
+            <!-- input -->
             <input
               class="form-control"
               :class="formItem.isWarning ? 'warning' : ''"
@@ -41,6 +44,24 @@
               :placeholder="formItem.placeholder"
               v-model="formItem.value"
             />
+
+            <!-- toggle-visible for password -->
+            <div
+              v-if="formItem.type !== undefined"
+              class="toggle-visible"
+              @click="
+                () => {
+                  changeVisiblePassword(formItem);
+                }
+              "
+            >
+              <img
+                v-if="formItem.isVisible"
+                src="../../assets/icons/eye-open.svg"
+                alt="image"
+              />
+              <img v-else src="../../assets/icons/eye-closed.svg" alt="svg" />
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -70,6 +91,7 @@
 <script>
 export default {
   name: "modal",
+  props: ["changePassword"],
   data() {
     return {
       modalChangePassword: [
@@ -81,7 +103,8 @@ export default {
           type: "password",
           condition: "Mật khẩu tối thiểu 6 ký tự",
           required: true,
-          isWarning: false
+          isWarning: false,
+          isVisible: false
         },
         {
           value: "",
@@ -91,13 +114,13 @@ export default {
           type: "password",
           condition: "Mật khẩu nhập lại không hợp lệ",
           required: true,
-          isWarning: false
+          isWarning: false,
+          isVisible: false
         }
       ],
       newPassword: ""
     };
   },
-  props: ["changePassword"],
   methods: {
     handleChangePassword() {
       const password = this.modalChangePassword[0];
@@ -125,6 +148,12 @@ export default {
         this.changePassword(password.value);
         console.log("changePassword");
       }
+    },
+    changeVisiblePassword(formItem) {
+      formItem.isVisible = !formItem.isVisible;
+      formItem.type === "text"
+        ? (formItem.type = "password")
+        : (formItem.type = "text");
     }
   }
 };
@@ -184,6 +213,18 @@ input[type="number"] {
 
 .form-control {
   margin-top: 10px;
+}
+
+.toggle-visible {
+  position: absolute;
+  right: 10px;
+  top: 23px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+
+.toggle-visible img {
+  width: 20px;
 }
 
 .modal-footer button {

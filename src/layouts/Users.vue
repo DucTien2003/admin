@@ -51,11 +51,14 @@
             <td class="">{{ user.organize }}</td>
             <td class="">{{ user.time }}</td>
             <td class="d-flex align-item-center">
-              <img
-                class="action-icon"
-                src="../assets/icons/pen.svg"
-                alt="icon"
-              />
+              <div data-bs-toggle="modal" data-bs-target="#changeInfoModal">
+                <img
+                  class="action-icon"
+                  src="../assets/icons/pen.svg"
+                  alt="icon"
+                  @click="changeIndex(index)"
+                />
+              </div>
               <img
                 class="action-icon"
                 src="../assets/icons/lock.svg"
@@ -78,18 +81,21 @@
       </div>
     </div>
 
-    <ModalAddUser :addUser="addUser"></ModalAddUser>
+    <!-- <ModalAddUser :addUser="addUser"></ModalAddUser> -->
     <ModalChangePassword :changePassword="changePassword" />
+    <ModalChangeInfo :infoUser="user" :changeInfoUser="changeInfoUser" />
   </div>
 </template>
 <script>
 import ModalAddUser from "../components/modal/ModalAddUser.vue";
+import ModalChangeInfo from "../components/modal/ModalChangeInfo.vue";
 import ModalChangePassword from "../components/modal/ModalChangePassword.vue";
 export default {
   name: "users",
   data() {
     return {
-      index: 0,
+      user: {},
+      index: "",
       users: [
         {
           name: "Lê Đức Tiến",
@@ -206,14 +212,20 @@ export default {
   },
   components: {
     ModalAddUser,
-    ModalChangePassword
+    ModalChangePassword,
+    ModalChangeInfo
   },
   methods: {
     changeIndex(index) {
       this.index = index;
+      this.user = this.users[this.index];
     },
     addUser(user) {
       this.users.unshift(user);
+    },
+    changeInfoUser(user) {
+      this.users[this.index] = user;
+      console.log(this.users);
     },
     changePassword(password) {
       this.users[this.index].password = password;
