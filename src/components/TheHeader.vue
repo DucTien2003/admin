@@ -118,7 +118,17 @@
               Cancel
             </button>
             <button type="button" class="btn btn-primary">
-              <router-link tag="a" :to="{ name: 'login' }">Logout</router-link>
+              <router-link tag="a" :to="{ name: 'login' }"
+                ><div
+                  @click="
+                    () => {
+                      removeModal();
+                    }
+                  "
+                >
+                  Logout
+                </div></router-link
+              >
             </button>
           </div>
         </div>
@@ -211,6 +221,12 @@ export default {
   methods: {
     handleShowDropdown(item) {
       item.isShow = !item.isShow;
+    },
+    removeModal() {
+      const modals = document.querySelectorAll(".modal-backdrop");
+      for (var modal of modals) {
+        modal.style.display = "none";
+      }
     }
   }
 };
