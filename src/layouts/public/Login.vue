@@ -35,7 +35,7 @@
               </div>
               <router-link
                 tag="a"
-                :to="{ name: 'default-layout' }"
+                :to="{ name: 'dashboard' }"
                 class="btn btn-primary btn-user btn-block"
               >
                 Login
@@ -43,7 +43,7 @@
               <hr />
               <router-link
                 tag="a"
-                :to="{ name: 'default-layout' }"
+                :to="{ name: 'dashboard' }"
                 class="color-google btn btn-primary btn-user btn-block center-content"
               >
                 <img
@@ -55,7 +55,7 @@
               </router-link>
               <router-link
                 tag="a"
-                :to="{ name: 'default-layout' }"
+                :to="{ name: 'dashboard' }"
                 class="color-facebook btn btn-primary btn-user btn-block center-content"
               >
                 <img

@@ -51,22 +51,28 @@
             <td class="">{{ user.organize }}</td>
             <td class="">{{ user.time }}</td>
             <td class="d-flex align-item-center">
-              <div data-bs-toggle="modal" data-bs-target="#changeInfoModal">
+              <div
+                class="action-icon"
+                data-bs-toggle="modal"
+                data-bs-target="#changeInfoModal"
+              >
                 <img
-                  class="action-icon"
                   src="../assets/icons/pen.svg"
                   alt="icon"
                   @click="changeIndex(index)"
                 />
               </div>
-              <img
+              <div
                 class="action-icon"
-                src="../assets/icons/lock.svg"
-                alt="icon"
                 data-bs-toggle="modal"
                 data-bs-target="#changePasswordModal"
-                @click="changeIndex(index)"
-              />
+              >
+                <img
+                  src="../assets/icons/lock.svg"
+                  alt="icon"
+                  @click="changeIndex(index)"
+                />
+              </div>
               <div class="form-check form-switch">
                 <input
                   class="form-check-input"
@@ -81,7 +87,7 @@
       </div>
     </div>
 
-    <!-- <ModalAddUser :addUser="addUser"></ModalAddUser> -->
+    <ModalAddUser :addUser="addUser"></ModalAddUser>
     <ModalChangePassword :changePassword="changePassword" />
     <ModalChangeInfo :infoUser="user" :changeInfoUser="changeInfoUser" />
   </div>
@@ -224,7 +230,8 @@ export default {
       this.users.unshift(user);
     },
     changeInfoUser(user) {
-      this.users[this.index] = user;
+      this.users.splice(this.index, 1, user);
+      // this.users[this.index] = user;
       console.log(this.users);
     },
     changePassword(password) {
@@ -289,14 +296,21 @@ tr.title {
 }
 
 .action-icon {
+  margin-right: 10px;
+}
+
+.action-icon img {
   width: 30px;
   padding: 5px;
   border-radius: 50%;
   cursor: pointer;
-  margin-right: 10px;
 }
 
-.action-icon:hover {
+.action-icon img:hover {
   background-color: #e9e6e6;
+}
+
+.form-check input {
+  margin-top: 8px;
 }
 </style>

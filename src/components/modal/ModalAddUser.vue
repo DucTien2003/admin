@@ -16,6 +16,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            @click="() => resetInputValue()"
           ></button>
         </div>
         <div class="modal-body d-flex flex-wrap align-items-center">
@@ -80,6 +81,7 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
+            @click="() => resetInputValue()"
           >
             Thoát
           </button>
@@ -190,7 +192,7 @@ export default {
     getTime() {
       let cd = new Date();
       let getDate = this.addZero(cd.getDate());
-      let getMonth = this.addZero(this.addZero(cd.getMonth() + 1));
+      let getMonth = this.addZero(cd.getMonth() + 1);
       let getFullYear = cd.getFullYear();
       let getHours = this.addZero(cd.getHours());
       let getMinutes = this.addZero(cd.getMinutes());
@@ -216,6 +218,17 @@ export default {
         time: "",
         isAdmin: false
       };
+    },
+    removeWarning() {
+      for (var modalAddUserItem of this.modalAddUser) {
+        modalAddUserItem.isWarning = false;
+      }
+    },
+    resetInputValue() {
+      for (var modalAddUserItem of this.modalAddUser) {
+        modalAddUserItem.value = "";
+      }
+      this.removeWarning();
     },
     handleAddUser() {
       let isWarning = false;
@@ -243,9 +256,7 @@ export default {
 
         this.resetNewUser();
 
-        for (var modalAddUserItem of this.modalAddUser) {
-          modalAddUserItem.value = "";
-        }
+        this.resetInputValue();
       }
     },
     changeVisiblePassword(formItem) {

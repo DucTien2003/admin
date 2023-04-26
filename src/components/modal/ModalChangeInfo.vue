@@ -10,7 +10,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="f-w-700">Thêm người dùng</h5>
+          <h5 class="f-w-700">Thay đổi thông tin</h5>
           <button
             type="button"
             class="btn-close"
@@ -127,8 +127,13 @@ export default {
           isWarning: false
         }
       ],
-      newUser: this.infoUser
+      newUser: { ...this.infoUser }
     };
+  },
+  watch: {
+    infoUser() {
+      this.newUser = { ...this.infoUser };
+    }
   },
   methods: {
     addZero(number) {
@@ -137,7 +142,7 @@ export default {
     getTime() {
       let cd = new Date();
       let getDate = this.addZero(cd.getDate());
-      let getMonth = this.addZero(this.addZero(cd.getMonth() + 1));
+      let getMonth = this.addZero(cd.getMonth() + 1);
       let getFullYear = cd.getFullYear();
       let getHours = this.addZero(cd.getHours());
       let getMinutes = this.addZero(cd.getMinutes());
@@ -145,8 +150,10 @@ export default {
       return `${getDate}/${getMonth}/${getFullYear} ${getHours}:${getMinutes}`;
     },
     handleChangeInfo() {
-      console.log(this.newUser);
       let isWarning = false;
+      for (var modalChangeInfoItem of this.modalChangeInfo) {
+        modalChangeInfoItem.value = this.newUser[modalChangeInfoItem.id];
+      }
       for (var modalChangeInfoItem of this.modalChangeInfo) {
         if (
           !modalChangeInfoItem.value ||
@@ -161,14 +168,8 @@ export default {
       }
 
       if (!isWarning) {
-        this.infoUser.time = this.getTime();
-        for (var modalChangeInfoItem of this.modalChangeInfo) {
-          this.infoUser[modalAddUserItem.id] = modalChangeInfoItem.value;
-        }
-
-        for (var modalAddUserItem of this.modalAddUser) {
-          modalAddUserItem.value = "";
-        }
+        this.newUser.time = this.getTime();
+        this.changeInfoUser(this.newUser);
       }
     }
   }

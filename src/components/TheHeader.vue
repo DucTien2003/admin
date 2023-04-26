@@ -223,7 +223,7 @@ hr {
 
 .header-wrapper {
   height: 70px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 /* search */

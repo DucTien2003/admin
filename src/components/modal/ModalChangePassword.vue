@@ -16,6 +16,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            @click="() => resetInputValue()"
           ></button>
         </div>
         <div class="modal-body d-flex flex-wrap align-items-center">
@@ -69,6 +70,7 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
+            @click="() => resetInputValue()"
           >
             Thoát
           </button>
@@ -76,8 +78,8 @@
             type="button"
             class="btn btn-primary"
             @click="
-              () => {
-                handleChangePassword();
+              event => {
+                handleChangePassword(event);
               }
             "
           >
@@ -122,7 +124,7 @@ export default {
     };
   },
   methods: {
-    handleChangePassword() {
+    handleChangePassword(event) {
       const password = this.modalChangePassword[0];
       const confirmPassword = this.modalChangePassword[1];
       let isWarning = false;
@@ -144,10 +146,26 @@ export default {
         confirmPassword.isWarning = false;
       }
 
-      if (!isWarning) {
+      if (isWarning) {
+        event.stopPropagation();
+      } else {
         this.changePassword(password.value);
         console.log("changePassword");
       }
+    },
+    removeWarning() {
+      for (var modalAddUserItem of this.modalAddUser) {
+        modalAddUserItem.isWarning = false;
+      }
+    },
+    resetInputValue() {
+      const password = this.modalChangePassword[0];
+      const confirmPassword = this.modalChangePassword[1];
+
+      password.value = "";
+      confirmPassword.value = "";
+      password.isWarning = false;
+      confirmPassword.isWarning = false;
     },
     changeVisiblePassword(formItem) {
       formItem.isVisible = !formItem.isVisible;

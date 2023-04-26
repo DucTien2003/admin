@@ -1,10 +1,10 @@
 import DefaultLayout from "./layouts/DefaultLayout.vue";
-import Users from "./layouts/Users.vue";
 import ForgotPass from "./layouts/public/ForgotPass.vue";
 import Login from "./layouts/public/Login.vue";
 import Register from "./layouts/public/Register.vue";
 
 import Dashboard from "./views/Dashboard.vue";
+import Users from "./views/Users.vue";
 import Tablets from "./views/Tablets.vue";
 import Borders from "./views/utilities/Borders.vue";
 import Colors from "./views/utilities/Colors.vue";
@@ -35,13 +35,13 @@ export const routes = [
         path: "/colors",
         name: "colors",
         component: Colors
+      },
+      {
+        path: "/users",
+        name: "users",
+        component: Users
       }
     ]
-  },
-  {
-    path: "/users",
-    name: "users",
-    component: Users
   },
   {
     path: "/forgot-password",

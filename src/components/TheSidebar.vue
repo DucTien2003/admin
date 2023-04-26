@@ -150,7 +150,7 @@ hr {
 
 #sidebar {
   min-height: 100vh;
-  height: 100%;
+  /* height: 100%; */
   width: 224px;
   background-color: var(--main-color);
   font-size: 1.4rem;
