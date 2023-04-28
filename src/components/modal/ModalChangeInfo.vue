@@ -6,6 +6,7 @@
     tabindex="-1"
     aria-labelledby="changeInfoModalLabel"
     aria-hidden="true"
+    @click="e => handleOutsideModal(e)"
   >
     <div class="modal-dialog">
       <div class="modal-content">
@@ -16,6 +17,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            @click="resetNewUser()"
           ></button>
         </div>
         <div class="modal-body d-flex flex-wrap align-items-center">
@@ -67,6 +69,7 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
+            @click="resetNewUser()"
           >
             Thoát
           </button>
@@ -149,6 +152,15 @@ export default {
 
       return `${getDate}/${getMonth}/${getFullYear} ${getHours}:${getMinutes}`;
     },
+    removeWarning() {
+      for (var modalChangeInfoItem of this.modalChangeInfo) {
+        modalChangeInfoItem.isWarning = false;
+      }
+    },
+    resetNewUser() {
+      this.removeWarning();
+      this.newUser = { ...this.infoUser };
+    },
     handleChangeInfo() {
       let isWarning = false;
       for (var modalChangeInfoItem of this.modalChangeInfo) {
@@ -170,6 +182,16 @@ export default {
       if (!isWarning) {
         this.newUser.time = this.getTime();
         this.changeInfoUser(this.newUser);
+      }
+    },
+    handleOutsideModal(e) {
+      const modal = document.querySelector(".modal.show");
+      if (modal) {
+        const modalContent = modal.querySelector(".modal-content");
+
+        if (!(e.target == modalContent || modalContent.contains(e.target))) {
+          this.resetNewUser();
+        }
       }
     }
   }

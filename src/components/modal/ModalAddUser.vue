@@ -6,6 +6,7 @@
     tabindex="-1"
     aria-labelledby="addUserModalLabel"
     aria-hidden="true"
+    @click="e => handleOutsideModal(e)"
   >
     <div class="modal-dialog">
       <div class="modal-content">
@@ -206,19 +207,6 @@ export default {
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
     },
-    resetNewUser() {
-      this.newUser = {
-        name: "",
-        account: "",
-        password: "",
-        email: "",
-        phone: "",
-        group: "",
-        organize: "",
-        time: "",
-        isAdmin: false
-      };
-    },
     removeWarning() {
       for (var modalAddUserItem of this.modalAddUser) {
         modalAddUserItem.isWarning = false;
@@ -228,6 +216,7 @@ export default {
       for (var modalAddUserItem of this.modalAddUser) {
         modalAddUserItem.value = "";
       }
+      this.newUser.isAdmin = false;
       this.removeWarning();
     },
     handleAddUser() {
@@ -254,8 +243,6 @@ export default {
         }
         this.addUser(this.newUser);
 
-        this.resetNewUser();
-
         this.resetInputValue();
       }
     },
@@ -264,6 +251,16 @@ export default {
       formItem.type === "text"
         ? (formItem.type = "password")
         : (formItem.type = "text");
+    },
+    handleOutsideModal(e) {
+      const modal = document.querySelector(".modal.show");
+      if (modal) {
+        const modalContent = modal.querySelector(".modal-content");
+
+        if (!(e.target == modalContent || modalContent.contains(e.target))) {
+          this.resetInputValue();
+        }
+      }
     }
   }
 };

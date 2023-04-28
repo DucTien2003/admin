@@ -6,6 +6,7 @@
     tabindex="-1"
     aria-labelledby="changePasswordModalLabel"
     aria-hidden="true"
+    @click="e => handleOutsideModal(e)"
   >
     <div class="modal-dialog">
       <div class="modal-content">
@@ -16,7 +17,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
-            @click="() => resetInputValue()"
+            @click="() => resetInput()"
           ></button>
         </div>
         <div class="modal-body d-flex flex-wrap align-items-center">
@@ -70,7 +71,7 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
-            @click="() => resetInputValue()"
+            @click="() => resetInput()"
           >
             Thoát
           </button>
@@ -158,7 +159,7 @@ export default {
         modalAddUserItem.isWarning = false;
       }
     },
-    resetInputValue() {
+    resetInput() {
       const password = this.modalChangePassword[0];
       const confirmPassword = this.modalChangePassword[1];
 
@@ -166,12 +167,24 @@ export default {
       confirmPassword.value = "";
       password.isWarning = false;
       confirmPassword.isWarning = false;
+
+      this.removeWarning();
     },
     changeVisiblePassword(formItem) {
       formItem.isVisible = !formItem.isVisible;
       formItem.type === "text"
         ? (formItem.type = "password")
         : (formItem.type = "text");
+    },
+    handleOutsideModal(e) {
+      const modal = document.querySelector(".modal.show");
+      if (modal) {
+        const modalContent = modal.querySelector(".modal-content");
+
+        if (!(e.target == modalContent || modalContent.contains(e.target))) {
+          this.resetInput();
+        }
+      }
     }
   }
 };

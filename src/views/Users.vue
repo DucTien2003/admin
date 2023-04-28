@@ -229,10 +229,9 @@ export default {
     addUser(user) {
       this.users.unshift(user);
     },
-    changeInfoUser(user) {
+    changeInfoUser(newUser) {
+      const user = { ...newUser };
       this.users.splice(this.index, 1, user);
-      // this.users[this.index] = user;
-      console.log(this.users);
     },
     changePassword(password) {
       this.users[this.index].password = password;
